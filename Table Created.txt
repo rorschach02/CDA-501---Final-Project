@@ -1,0 +1,52 @@
+Database Table Info: 
+
+- Location (LocationID , Location)
+
+- Vaccination (VaccinationID,date,LocationID,total_vaccinations,total_distributed,people_vaccinated,
+                people_fully_vaccinated_per_hundred,total_vaccinations_per_hundred,people_fully_vaccinated,
+                people_vaccinated_per_hundred,distributed_per_hundred,daily_vaccinations_raw,
+                daily_vaccinations,daily_vaccinations_per_million,share_doses_used,
+                FOREIGN KEY : LocationID  ) 
+
+- Party (PartyID,Party)
+
+- County (CountyID , County) 
+
+- Candidate (CandidateID , Candidate) 
+
+- LocationElection (LocationElectionID, LocationElection) 
+
+- ElectionsRes ( ElectionsID , LocationID , CountyID , CandidateID , PartyID , 
+                 TotalVotes , Won 
+                 FOREIGN KEY : LocationID , CountyID , CandidateID , PartyID )
+
+
+sql queries: 
+
+1)
+SELECT e.TotalVotes , l.Location FROM ElectionsRes e INNER JOIN Location l ON e.ElectionsID = l.ElectionsID GROUP BY Location; 
+
+2) 
+SELECT p.Party , e.Won , COUNT(E.Won) as 'Number of Votes Won' FROM ElectionsRes e INNER JOIN Party p ON e.PartyID = p.PartyID GROUP BY p.Party;
+
+3) 
+SELECT c.Candidate ,e.TotalVotes FROM ElectionsRes e INNER JOIN Candidate c ON e.CandidateID = c.CandidateID GROUP BY c.Candidate;
+
+4) 
+SELECT v.people_fully_vaccinated_per_hundred , l.Location from Vaccination v INNER JOIN Location l ON v.LocationID = l.LocationID;
+
+
+5) 
+SELECT l.Location , p.party , e.Won FROM location l inner join ElectionsRes e on l.LocationID = e.LocationID INNER JOIN party p e.PartyID = p.PartyID;
+
+
+6)
+SELECT l.Location , p.party , v.people_vaccinated_per_hundred FROM location l inner join ElectionsRes e 
+on l.LocationID = e.LocationID INNER JOIN party p ON e.PartyID = p.PartyID INNER JOIN Vaccination v ON l.LocationID = v.LocationID 
+GROUP BY Location HAVING p.party like 'REP';  ''' , conn)
+
+(SELECT V.people_vaccinated_per_hundred , v.locationID from Vaccination v where v.date like '2021-12-02';)
+
+7)
+
+''' SELECT * FROM ElectionsRes e INNER JOIN 
